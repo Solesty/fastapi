@@ -5,9 +5,9 @@ services:
     image: traefik:v2.3
     ports:
       # Listen on port 80, default for HTTP, necessary to redirect to HTTPS
-      - 80:80
+      - 85:85
       # Listen on port 443, default for HTTPS
-      - 443:443
+      - 444:444
     restart: always
     labels:
       # Enable Traefik for this service, to make it available in the public network
@@ -36,7 +36,7 @@ services:
       # Using the environment variables USERNAME and HASHED_PASSWORD
       # - traefik.http.middlewares.admin-auth.basicauth.users=${USERNAME?Variable not set}:${HASHED_PASSWORD?Variable not set}
       # Enable HTTP Basic auth, using the middleware created above
-      - traefik.http.routers.traefik-dashboard-https.middlewares=admin-auth
+      # - traefik.http.routers.traefik-dashboard-https.middlewares=admin-auth
     volumes:
       # Add Docker as a mounted volume, so that Traefik can read the labels of other services
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -52,7 +52,7 @@ services:
       # Create an entrypoint "https" listening on port 443
       - --entrypoints.https.address=:443
       # Create the certificate resolver "le" for Let's Encrypt, uses the environment variable EMAIL
-      - --certificatesresolvers.le.acme.email=admin@example.com
+      - --certificatesresolvers.le.acme.email=mail@solomonaboyeji.com
       # Store the Let's Encrypt certificates in the mounted volume
       - --certificatesresolvers.le.acme.storage=/certificates/acme.json
       # Use the TLS Challenge for Let's Encrypt
